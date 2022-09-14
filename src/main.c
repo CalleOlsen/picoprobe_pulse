@@ -26,15 +26,17 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-
+#include "pico/multicore.h"
 #include "bsp/board.h"
 #include "tusb.h"
 
+#include "pulse/pulse_generator.hpp"
 #include "picoprobe_config.h"
 #include "probe.h"
 #include "cdc_uart.h"
 #include "get_serial.h"
 #include "led.h"
+
 
 // UART0 for Picoprobe debug
 // UART1 for picoprobe to target device
@@ -42,6 +44,7 @@
 int main(void) {
 
     board_init();
+    multicore_launch_core1(core1_entry);
     usb_serial_init();
     cdc_uart_init();
     tusb_init();

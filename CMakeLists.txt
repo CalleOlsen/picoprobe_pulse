@@ -13,6 +13,7 @@ add_executable(picoprobe
         src/probe.c
         src/cdc_uart.c
         src/get_serial.c
+        src/pulse/pulse_generator.cpp
 )
 
 if (DEFINED ENV{PICOPROBE_LED})
@@ -27,9 +28,9 @@ pico_generate_pio_header(picoprobe ${CMAKE_CURRENT_LIST_DIR}/src/probe.pio)
 target_include_directories(picoprobe PRIVATE src)
 
 target_compile_definitions (picoprobe PRIVATE
-	PICO_RP2040_USB_DEVICE_ENUMERATION_FIX=1
+        PICO_RP2040_USB_DEVICE_ENUMERATION_FIX=1
 )
 
-target_link_libraries(picoprobe PRIVATE pico_stdlib pico_unique_id tinyusb_device tinyusb_board hardware_pio)
+target_link_libraries(picoprobe PRIVATE pico_stdlib pico_unique_id tinyusb_device tinyusb_board hardware_pio pico_multicore)
 
-pico_add_extra_outputs(picoprobe)
+pico_add_extra_outputs(picoprobe pico_multicore)
